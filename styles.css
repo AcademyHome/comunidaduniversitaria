@@ -1,0 +1,65 @@
+/* Estilo general */
+body {
+    background: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.calculator {
+    background: #333;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 320px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.screen {
+    background: #000;
+    color: #0f0;
+    font-size: 2rem;
+    padding: 0.5rem;
+    text-align: right;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 1rem;
+    font-size: 1.2rem;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #777;
+}
+
+.fn {
+    background: #f39c12;
+}
+
+.fn:hover {
+    background: #e67e22;
+}
+
+/* Responsivo */
+@media (max-width: 400px) {
+    .calculator {
+        width: 90%;
+    }
+}

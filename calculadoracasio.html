@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Casio fx-570LA PLUS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calculator">
+        <div class="screen" id="screen">
+            0
+        </div>
+        <div class="buttons">
+            <!-- Primera fila -->
+            <button class="btn fn" data-action="shift">SHIFT</button>
+            <button class="btn" data-action="mode">MODE</button>
+            <button class="btn" data-action="on">ON</button>
+            <button class="btn" data-action="off">OFF</button>
+            
+            <!-- Segunda fila -->
+            <button class="btn" data-action="left">◄</button>
+            <button class="btn" data-action="right">►</button>
+            <button class="btn" data-action="up">▲</button>
+            <button class="btn" data-action="down">▼</button>
+            
+            <!-- Tercera fila -->
+            <button class="btn" data-value="7">7</button>
+            <button class="btn" data-value="8">8</button>
+            <button class="btn" data-value="9">9</button>
+            <button class="btn" data-action="del">DEL</button>
+
+            <!-- Cuarta fila -->
+            <button class="btn" data-value="4">4</button>
+            <button class="btn" data-value="5">5</button>
+            <button class="btn" data-value="6">6</button>
+            <button class="btn" data-action="ac">AC</button>
+
+            <!-- Quinta fila -->
+            <button class="btn" data-value="1">1</button>
+            <button class="btn" data-value="2">2</button>
+            <button class="btn" data-value="3">3</button>
+            <button class="btn" data-value="÷">÷</button>
+
+            <!-- Sexta fila -->
+            <button class="btn" data-value="0">0</button>
+            <button class="btn" data-value=".">.</button>
+            <button class="btn" data-action="equal">=</button>
+            <button class="btn" data-value="×">×</button>
+
+            <!-- Operaciones adicionales -->
+            <button class="btn" data-value="-">−</button>
+            <button class="btn" data-value="+">+</button>
+            <button class="btn" data-value="^">^</button>
+            <button class="btn" data-value="√">√</button>
+
+            <!-- Funciones científicas básicas -->
+            <button class="btn" data-value="sin(">sin</button>
+            <button class="btn" data-value="cos(">cos</button>
+            <button class="btn" data-value="tan(">tan</button>
+            <button class="btn" data-value="log(">log</button>
+
+            <button class="btn" data-value="ln(">ln</button>
+            <button class="btn" data-value="(">(</button>
+            <button class="btn" data-value=")">)</button>
+            <button class="btn" data-value="π">π</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
