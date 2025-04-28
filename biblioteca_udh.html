@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Universitaria | Organiza tus archivos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361EE;
+            --secondary: #3A0CA3;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --accent: #4CC9F0;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark);
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 2rem 1rem;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .sidebar-links a:hover, .sidebar-links a.active {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #eee;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            background: #f5f7fa;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .files-header h2 {
+            color: var(--dark);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-thumbnail {
+            height: 120px;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .file-info {
+            padding: 1rem;
+        }
+
+        .file-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .file-actions button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-actions button:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
+                padding: 1.5rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+            .search-bar {
+                margin: 1rem 0;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con barra de búsqueda -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>Biblioteca</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar archivos, documentos...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="user-actions">
+                <button class="btn">
+                    <i class="fas fa-user-circle"></i> Mi cuenta
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <button class="btn" style="width: 100%; margin-bottom: 1.5rem;">
+                    <i class="fas fa-upload"></i> Subir archivo
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-folder"></i> Categorías</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="active">
+                        <i class="fas fa-graduation-cap"></i> Apuntes
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-file-alt"></i> Exámenes
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-book"></i> Libros
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-chalkboard-teacher"></i> Presentaciones
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-project-diagram"></i> Proyectos
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-tags"></i> Etiquetas</h3>
+                <div class="tags">
+                    <span class="tag">#Matemáticas</span>
+                    <span class="tag">#Física</span>
+                    <span class="tag">#Programación</span>
+                    <span class="tag">#Historia</span>
+                    <span class="tag">#2023</span>
+                    <span class="tag">#Semestre1</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-history"></i> Recientes</h3>
+                <div class="sidebar-links">
+                    <a href="#">
+                        <i class="fas fa-file-pdf"></i> Guía Cálculo II
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-file-word"></i> Tesis Ejemplo
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-file-powerpoint"></i> Presentación IA
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="#"><i class="fas fa-home"></i> Inicio</a>
+                <span>/</span>
+                <a href="#">Apuntes</a>
+                <span>/</span>
+                <span>Ingeniería</span>
+            </div>
+
+            <div class="files-header">
+                <h2><i class="fas fa-folder-open"></i> Apuntes de Ingeniería</h2>
+                <div class="actions">
+                    <button class="btn">
+                        <i class="fas fa-sort-amount-down"></i> Ordenar
+                    </button>
+                    <button class="btn">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <div class="files-grid">
+                <!-- Archivo 1 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Mecánica de Materiales - Teoría</h3>
+                        <div class="file-meta">
+                            <span>PDF</span>
+                            <span>2.4 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>15/05/2023</span>
+                            <span><i class="fas fa-download"></i> 42</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivo 2 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Problemas Resueltos - Resistencia</h3>
+                        <div class="file-meta">
+                            <span>DOCX</span>
+                            <span>1.8 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>10/05/2023</span>
+                            <span><i class="fas fa-download"></i> 28</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivo 3 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Tablas de Cálculo Estructural</h3>
+                        <div class="file-meta">
+                            <span>XLSX</span>
+                            <span>3.1 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>05/05/2023</span>
+                            <span><i class="fas fa-download"></i> 35</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivo 4 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Presentación - Análisis de Esfuerzos</h3>
+                        <div class="file-meta">
+                            <span>PPTX</span>
+                            <span>5.2 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>01/05/2023</span>
+                            <span><i class="fas fa-download"></i> 19</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivo 5 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Manual de Laboratorio - Mecánica</h3>
+                        <div class="file-meta">
+                            <span>PDF</span>
+                            <span>4.7 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>25/04/2023</span>
+                            <span><i class="fas fa-download"></i> 31</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archivo 6 -->
+                <div class="file-card">
+                    <div class="file-thumbnail">
+                        <i class="fas fa-file-archive"></i>
+                    </div>
+                    <div class="file-info">
+                        <h3>Proyecto Final - Diseño Estructural</h3>
+                        <div class="file-meta">
+                            <span>ZIP</span>
+                            <span>15.3 MB</span>
+                        </div>
+                        <div class="file-meta">
+                            <span>20/04/2023</span>
+                            <span><i class="fas fa-download"></i> 12</span>
+                        </div>
+                        <div class="file-actions">
+                            <button title="Descargar"><i class="fas fa-download"></i></button>
+                            <button title="Compartir"><i class="fas fa-share-alt"></i></button>
+                            <button title="Favorito"><i class="far fa-star"></i></button>
+                            <button title="Más"><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Funcionalidad básica para demostración
+        document.querySelectorAll('.file-actions button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                alert(`Acción: ${button.querySelector('i').className}`);
+            });
+        });
+
+        document.querySelectorAll('.file-card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('Vista previa del archivo (implementar con PDF.js o similar)');
+            });
+        });
+    </script>
+</body>
+</html>

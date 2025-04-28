@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad Universitaria UDH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4D44DB;
+            --dark: #2F2E41;
+            --light: #F8F9FA;
+            --accent: #FF6584;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: -4px;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 101, 132, 0.1);
+            color: var(--accent);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-toggle::after {
+            content: "▼";
+            font-size: 0.6rem;
+            margin-left: 0.3rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Resto de tus estilos... */
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Comunidad UDH</span>
+            </div>
+            <div class="nav-links">
+                <a href="#">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fas fa-school"></i>
+                        <span>Escuelas</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-building"></i> Civil</a>
+                        <a href="#"><i class="fas fa-ruler-combined"></i> Arquitectura</a>
+                        <a href="#"><i class="fas fa-leaf"></i> Ambiental</a>
+                        <a href="#"><i class="fas fa-laptop-code"></i> Ing. de Sistemas</a>
+                        <a href="#"><i class="fas fa-gavel"></i> Derecho</a>
+                        <a href="#"><i class="fas fa-briefcase"></i> Administración</a>
+                        <a href="#"><i class="fas fa-calculator"></i> Contabilidad</a>
+                        <a href="#"><i class="fas fa-bullhorn"></i> Marketing</a>
+                        <a href="#"><i class="fas fa-umbrella-beach"></i> Turismo</a>
+                        <a href="#"><i class="fas fa-book-open"></i> Educación</a>
+                        <a href="#"><i class="fas fa-user-nurse"></i> Enfermería</a>
+                        <a href="#"><i class="fas fa-baby"></i> Obstetricia</a>
+                        <a href="#"><i class="fas fa-tooth"></i> Odontología</a>
+                        <a href="#"><i class="fas fa-brain"></i> Psicología</a>
+                    </div>
+                </div>
+                
+                <a href="biblioteca_udh.html">
+                    <i class="fas fa-book"></i>
+                    <span>Recursos</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Eventos</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contacto</span>
+                </a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Resto de tu contenido... -->
+</body>
+</html>
