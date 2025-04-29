@@ -1,549 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calculadora Casio fx-991EX</title>
-    <style>
-        :root {
-            --casio-dark: #1a1a1a;
-            --casio-light: #e6e6e6;
-            --casio-red: #d40000;
-            --casio-blue: #0066cc;
-            --casio-green: #009900;
-            --casio-yellow: #ffcc00;
-            --casio-orange: #ff6600;
-            --casio-button: #333333;
-            --casio-button-active: #4d4d4d;
-            --casio-display: #c3e6cd;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        body {
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
-        }
-
-        .calculator {
-            width: 100%;
-            max-width: 400px;
-            background-color: var(--casio-dark);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .brand {
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .brand-name {
-            font-weight: bold;
-        }
-
-        .model {
-            color: var(--casio-red);
-        }
-
-        .display {
-            background-color: var(--casio-display);
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: right;
-            position: relative;
-            min-height: 100px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .formula {
-            font-size: 16px;
-            color: #555;
-            min-height: 20px;
-            word-break: break-all;
-        }
-
-        .result {
-            font-size: 32px;
-            font-weight: bold;
-            margin-top: 10px;
-            word-break: break-all;
-        }
-
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-        }
-
-        .key {
-            aspect-ratio: 1/1;
-            border: none;
-            border-radius: 50%;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            transition: background-color 0.1s;
-            color: white;
-            background-color: var(--casio-button);
-            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .key:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-            background-color: var(--casio-button-active);
-        }
-
-        .key.function {
-            background-color: var(--casio-blue);
-        }
-
-        .key.operation {
-            background-color: var(--casio-orange);
-        }
-
-        .key.equals {
-            background-color: var(--casio-red);
-        }
-
-        .key.shift {
-            background-color: var(--casio-green);
-        }
-
-        .key.alpha {
-            background-color: var(--casio-yellow);
-            color: black;
-        }
-
-        .key.mode {
-            background-color: var(--casio-light);
-            color: black;
-        }
-
-        .key.optn {
-            background-color: #9933cc;
-        }
-
-        .key.space {
-            grid-column: span 2;
-            border-radius: 50px;
-            aspect-ratio: 2/1;
-        }
-
-        .key.ac {
-            background-color: var(--casio-red);
-        }
-
-        .key.superscript {
-            font-size: 0.6em;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .key.subscript {
-            font-size: 0.6em;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .key-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .key-main {
-            font-size: 1em;
-        }
-
-        .key-secondary {
-            font-size: 0.6em;
-            margin-top: 2px;
-        }
-
-        .calculator-body {
-            position: relative;
-        }
-
-        .calculator-body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 30px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-            border-radius: 15px 15px 0 0;
-            pointer-events: none;
-        }
-
-        @media (max-width: 400px) {
-            .key {
-                font-size: 16px;
-            }
-            
-            .result {
-                font-size: 28px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Científica Mejorada</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="calculator-body">
-            <div class="brand">
-                <span class="brand-name">CASIO</span>
-                <span class="model">fx-991EX</span>
-            </div>
-            
-            <div class="display">
-                <div class="formula" id="formulaDisplay"></div>
-                <div class="result" id="resultDisplay">0</div>
-            </div>
-            
-            <div class="keypad">
-                <!-- Fila 1 -->
-                <button class="key shift" onclick="handleShift()">
-                    <div class="key-text">
-                        <span class="key-main">Shift</span>
-                    </div>
-                </button>
-                <button class="key alpha" onclick="handleAlpha()">
-                    <div class="key-text">
-                        <span class="key-main">Alpha</span>
-                    </div>
-                </button>
-                <button class="key mode" onclick="handleMode()">
-                    <div class="key-text">
-                        <span class="key-main">Mode</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('log')">
-                    <div class="key-text">
-                        <span class="key-main">log</span>
-                        <span class="key-secondary"></span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('ln')">
-                    <div class="key-text">
-                        <span class="key-main">ln</span>
-                        <span class="key-secondary"></span>
-                    </div>
-                </button>
-                
-                <!-- Fila 2 -->
-                <button class="key optn" onclick="handleOptn()">
-                    <div class="key-text">
-                        <span class="key-main">Optn</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('sin')">
-                    <div class="key-text">
-                        <span class="key-main">sin</span>
-                        <span class="key-secondary">sin⁻¹</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('cos')">
-                    <div class="key-text">
-                        <span class="key-main">cos</span>
-                        <span class="key-secondary">cos⁻¹</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('tan')">
-                    <div class="key-text">
-                        <span class="key-main">tan</span>
-                        <span class="key-secondary">tan⁻¹</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('√')">
-                    <div class="key-text">
-                        <span class="key-main">√</span>
-                        <span class="key-secondary">∛</span>
-                    </div>
-                </button>
-                
-                <!-- Fila 3 -->
-                <button class="key ac" onclick="clearAll()">
-                    <div class="key-text">
-                        <span class="key-main">AC</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="insertChar('(')">
-                    <div class="key-text">
-                        <span class="key-main">(</span>
-                        <span class="key-secondary">,</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="insertChar(')')">
-                    <div class="key-text">
-                        <span class="key-main">)</span>
-                        <span class="key-secondary">:</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('^')">
-                    <div class="key-text">
-                        <span class="key-main">^</span>
-                        <span class="key-secondary">10^x</span>
-                    </div>
-                </button>
-                <button class="key function" onclick="handleFunction('log')">
-                    <div class="key-text">
-                        <span class="key-main">log</span>
-                        <span class="key-secondary">e^x</span>
-                    </div>
-                </button>
-                
-                <!-- Fila 4 -->
-                <button class="key" onclick="insertChar('7')">7</button>
-                <button class="key" onclick="insertChar('8')">8</button>
-                <button class="key" onclick="insertChar('9')">9</button>
-                <button class="key operation" onclick="insertChar('÷')">÷</button>
-                <button class="key function" onclick="handleFunction('π')">
-                    <div class="key-text">
-                        <span class="key-main">π</span>
-                    </div>
-                </button>
-                
-                <!-- Fila 5 -->
-                <button class="key" onclick="insertChar('4')">4</button>
-                <button class="key" onclick="insertChar('5')">5</button>
-                <button class="key" onclick="insertChar('6')">6</button>
-                <button class="key operation" onclick="insertChar('×')">×</button>
-                <button class="key function" onclick="factorial()">
-                    <div class="key-text">
-                        <span class="key-main">x!</span>
-                    </div>
-                </button>
-                
-                <!-- Fila 6 -->
-                <button class="key" onclick="insertChar('1')">1</button>
-                <button class="key" onclick="insertChar('2')">2</button>
-                <button class="key" onclick="insertChar('3')">3</button>
-                <button class="key operation" onclick="insertChar('-')">−</button>
-                <button class="key function" onclick="percentage()">
-                    <div class="key-text">
-                        <span class="key-main">%</span>
-                    </div>
-                </button>
-                
-                <!-- Fila 7 -->
-                <button class="key" onclick="insertChar('0')">0</button>
-                <button class="key" onclick="insertChar('.')">.</button>
-                <button class="key" onclick="deleteLastChar()">DEL</button>
-                <button class="key operation" onclick="insertChar('+')">+</button>
-                <button class="key equals" onclick="calculate()">
-                    <div class="key-text">
-                        <span class="key-main">=</span>
-                    </div>
-                </button>
-            </div>
-        </div>
+
+<div class="calculator">
+
+  <!-- Pantalla -->
+  <div class="screen" id="screen">
+    <button id="theme-toggle" title="Cambiar tema">🌙</button>
+    <span id="expression">0</span>
+  </div>
+
+  <!-- Botones -->
+  <div class="buttons">
+
+    <!-- Funciones -->
+    <div class="row">
+      <button class="btn" data-value="sin(">sin</button>
+      <button class="btn" data-value="cos(">cos</button>
+      <button class="btn" data-value="tan(">tan</button>
+      <button class="btn" data-value="^">^</button>
     </div>
 
-    <script>
-        let currentInput = '0';
-        let formula = '';
-        let isShift = false;
-        let isAlpha = false;
-        let lastResult = null;
-        
-        const resultDisplay = document.getElementById('resultDisplay');
-        const formulaDisplay = document.getElementById('formulaDisplay');
-        
-        function updateDisplay() {
-            resultDisplay.textContent = currentInput;
-            formulaDisplay.textContent = formula;
-        }
-        
-        function insertChar(char) {
-            if (currentInput === '0' && char !== '.') {
-                currentInput = char;
-            } else {
-                currentInput += char;
-            }
-            updateDisplay();
-        }
-        
-        function clearAll() {
-            currentInput = '0';
-            formula = '';
-            updateDisplay();
-        }
-        
-        function deleteLastChar() {
-            if (currentInput.length === 1) {
-                currentInput = '0';
-            } else {
-                currentInput = currentInput.slice(0, -1);
-            }
-            updateDisplay();
-        }
-        
-        function handleShift() {
-            isShift = !isShift;
-            // En una implementación real, cambiaría las funciones secundarias
-        }
-        
-        function handleAlpha() {
-            isAlpha = !isAlpha;
-            // En una implementación real, activaría las letras
-        }
-        
-        function handleMode() {
-            // Cambiaría entre modos de cálculo
-            alert("Menú MODE: Normal / Estadística / Tabla / Ecuación");
-        }
-        
-        function handleOptn() {
-            // Mostraría opciones adicionales
-            alert("Menú OPTN: Más funciones disponibles");
-        }
-        
-        function handleFunction(func) {
-            switch(func) {
-                case 'sin':
-                    if (isShift) {
-                        formula += 'sin⁻¹(' + currentInput + ')';
-                        currentInput = Math.asin(parseFloat(currentInput)) * (180 / Math.PI);
-                    } else {
-                        formula += 'sin(' + currentInput + ')';
-                        currentInput = Math.sin(parseFloat(currentInput) * (Math.PI / 180);
-                    }
-                    break;
-                case 'cos':
-                    if (isShift) {
-                        formula += 'cos⁻¹(' + currentInput + ')';
-                        currentInput = Math.acos(parseFloat(currentInput)) * (180 / Math.PI);
-                    } else {
-                        formula += 'cos(' + currentInput + ')';
-                        currentInput = Math.cos(parseFloat(currentInput) * (Math.PI / 180));
-                    }
-                    break;
-                case 'tan':
-                    if (isShift) {
-                        formula += 'tan⁻¹(' + currentInput + ')';
-                        currentInput = Math.atan(parseFloat(currentInput)) * (180 / Math.PI);
-                    } else {
-                        formula += 'tan(' + currentInput + ')';
-                        currentInput = Math.tan(parseFloat(currentInput) * (Math.PI / 180);
-                    }
-                    break;
-                case '√':
-                    if (isShift) {
-                        formula += '∛(' + currentInput + ')';
-                        currentInput = Math.cbrt(parseFloat(currentInput));
-                    } else {
-                        formula += '√(' + currentInput + ')';
-                        currentInput = Math.sqrt(parseFloat(currentInput));
-                    }
-                    break;
-                case '^':
-                    if (isShift) {
-                        formula += '10^(' + currentInput + ')';
-                        currentInput = Math.pow(10, parseFloat(currentInput));
-                    } else {
-                        formula += currentInput + '^';
-                        currentInput = '0';
-                    }
-                    break;
-                case 'log':
-                    if (isShift) {
-                        formula += 'e^(' + currentInput + ')';
-                        currentInput = Math.exp(parseFloat(currentInput));
-                    } else {
-                        formula += 'log(' + currentInput + ')';
-                        currentInput = Math.log10(parseFloat(currentInput));
-                    }
-                    break;
-                case 'ln':
-                    formula += 'ln(' + currentInput + ')';
-                    currentInput = Math.log(parseFloat(currentInput));
-                    break;
-                case 'π':
-                    formula += 'π';
-                    currentInput = Math.PI.toString();
-                    break;
-            }
-            updateDisplay();
-        }
-        
-        function factorial() {
-            let num = parseInt(currentInput);
-            if (num < 0) {
-                currentInput = 'Error';
-            } else if (num === 0 || num === 1) {
-                currentInput = '1';
-            } else {
-                let result = 1;
-                for (let i = 2; i <= num; i++) {
-                    result *= i;
-                }
-                currentInput = result.toString();
-            }
-            formula += currentInput + '!';
-            updateDisplay();
-        }
-        
-        function percentage() {
-            const value = parseFloat(currentInput);
-            currentInput = (value / 100).toString();
-            formula += value + '%';
-            updateDisplay();
-        }
-        
-        function calculate() {
-            try {
-                // Reemplazar símbolos para evaluación
-                let expression = formula.replace(/×/g, '*').replace(/÷/g, '/');
-                
-                // Manejar exponentes
-                if (expression.includes('^')) {
-                    const parts = expression.split('^');
-                    if (parts.length === 2) {
-                        expression = `Math.pow(${parts[0]}, ${parts[1]})`;
-                    }
-                }
-                
-                // Evaluar la expresión
-                const result = eval(expression);
-                
-                formula += '=';
-                currentInput = result.toString();
-                lastResult = result;
-            } catch (e) {
-                currentInput = 'Error';
-            }
-            updateDisplay();
-        }
-        
-        // Inicializar la calculadora
-        updateDisplay();
-    </script>
+    <div class="row">
+      <button class="btn" data-value="log10(">log</button>
+      <button class="btn" data-value="ln(">ln</button>
+      <button class="btn" data-value="√(">√</button>
+      <button class="btn" data-value="π">π</button>
+    </div>
+
+    <!-- Números y operadores -->
+    <div class="row">
+      <button class="btn" data-value="7">7</button>
+      <button class="btn" data-value="8">8</button>
+      <button class="btn" data-value="9">9</button>
+      <button class="btn" data-value="÷">÷</button>
+    </div>
+
+    <div class="row">
+      <button class="btn" data-value="4">4</button>
+      <button class="btn" data-value="5">5</button>
+      <button class="btn" data-value="6">6</button>
+      <button class="btn" data-value="×">×</button>
+    </div>
+
+    <div class="row">
+      <button class="btn" data-value="1">1</button>
+      <button class="btn" data-value="2">2</button>
+      <button class="btn" data-value="3">3</button>
+      <button class="btn" data-value="-">−</button>
+    </div>
+
+    <div class="row">
+      <button class="btn" data-value="0">0</button>
+      <button class="btn" data-value=".">.</button>
+      <button class="btn" data-action="equal">=</button>
+      <button class="btn" data-value="+">+</button>
+    </div>
+
+    <!-- AC y DEL -->
+    <div class="row">
+      <button class="btn" data-action="ac">AC</button>
+      <button class="btn" data-action="del">DEL</button>
+      <button class="btn" data-value="("> ( </button>
+      <button class="btn" data-value=")"> ) </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
