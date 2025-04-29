@@ -120,6 +120,12 @@
             background: rgba(255,255,255,0.2);
             padding: 10px 30px;
             border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .countdown span {
+            display: inline-block;
+            min-width: 40px;
         }
     </style>
 </head>
@@ -129,7 +135,12 @@
         <h1>¡Estamos trabajando!</h1>
         <p>Nuestro sitio está en mantenimiento para brindarte una experiencia aún mejor. ¡Pronto te sorprenderemos con algo increíble!</p>
         <div class="spinner"></div>
-        <div class="countdown" id="countdown">Volvemos pronto...</div>
+        <div class="countdown" id="countdown">
+            <span id="days">00</span>d 
+            <span id="hours">00</span>h 
+            <span id="minutes">00</span>m 
+            <span id="seconds">00</span>s
+        </div>
         <div class="social-links">
             <a href="#" target="_blank">📱</a>
             <a href="#" target="_blank">📧</a>
@@ -156,30 +167,40 @@
         // Generar confeti cada 300ms
         setInterval(createConfetti, 300);
         
-        // Contador regresivo de ejemplo (puedes configurar tu fecha)
+        // Contador regresivo CORREGIDO
         function updateCountdown() {
+            // Configura la fecha objetivo (2 días desde ahora)
             const targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 2); // 2 días desde ahora
+            targetDate.setDate(targetDate.getDate() + 15);
+            targetDate.setHours(12, 0, 0, 0); // Fijamos a medio día para mejor visualización
             
             const now = new Date();
             const diff = targetDate - now;
             
             if (diff <= 0) {
-                document.getElementById('countdown').textContent = "¡Ya estamos listos!";
+                document.getElementById('countdown').innerHTML = "¡Ya estamos listos! 🎉";
                 return;
             }
             
+            // Cálculos CORRECTOS del tiempo restante
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('countdown').textContent = 
-                `Volvemos en: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            // Formatear con 2 dígitos
+            const format = num => num < 10 ? `0${num}` : num;
+            
+            // Actualizar el DOM
+            document.getElementById('days').textContent = format(days);
+            document.getElementById('hours').textContent = format(hours);
+            document.getElementById('minutes').textContent = format(minutes);
+            document.getElementById('seconds').textContent = format(seconds);
         }
         
+        // Actualizar cada segundo
         setInterval(updateCountdown, 1000);
-        updateCountdown();
+        updateCountdown(); // Llamar inmediatamente para evitar retraso inicial
     </script>
 </body>
 </html>
