@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad Universitaria</title>
+    <style>
+        :root {
+            --azul: #2C5FDF;
+            --amarillo: #FFD700;
+            --rojo: #E31837;
+            --blanco: #FFFFFF;
+            --gris-claro: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--gris-claro);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--blanco);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            background-color: var(--blanco);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            border: null;
+            position: relative;
+            overflow: hidden;
+            /* Ruta del logo */
+            background-image: url('Datos/logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+    
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--azul);
+        }
+        
+        .logo-text span {
+            color: var(--rojo);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--azul);
+        }
+        
+        /* Estilos para el menú desplegable */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--blanco);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: var(--gris-claro);
+            color: var(--azul);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-btn::after {
+            content: "▼";
+            font-size: 0.6em;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--rojo) 100%);
+            color: var(--blanco);
+            padding: 5rem 5%;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--amarillo);
+            color: #333;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+        
+        .mission-vision {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--blanco);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            color: var(--azul);
+            margin-top: 0;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .card h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--amarillo);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature {
+            background-color: var(--blanco);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--azul);
+        }
+        
+        footer {
+            background-color: var(--azul);
+            color: var(--blanco);
+            text-align: center;
+            padding: 2rem 5%;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: var(--blanco);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--amarillo);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo-img"></div>
+                <div class="logo-text">Comunidad <span>Universitaria</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-btn">Comunidades</a>
+                        <div class="dropdown-content">
+                            <a href="https://udh.comunidad-universitaria.com">Comunidad UDH</a>
+                            <a href="#">Comunidad UNHEVAL</a>
+                            <a href="#">Comunidad PUCP</a>
+                            <a href="#">Comunidad UTP</a>
+                            <a href="#">Comunidad UNI</a>
+                            <a href="#">Comunidad CV</a>
+                        </div>
+                    </li>
+                    <li><a href="#mision-vision">Misión y Visión</a></li>
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero" id="inicio">
+        <h1>Bienvenidos a Nuestra Comunidad Universitaria</h1>
+        <p>Un espacio creado para conectar, aprender y crecer juntos en el ámbito académico y profesional.</p>
+        <a href="#mision-vision" class="btn">Conoce más</a>
+    </section>
+    
+    <div class="container">
+        <section class="mission-vision" id="mision-vision">
+            <div class="card">
+                <h2>Misión</h2>
+                <p>Fomentar la integración y el crecimiento académico, social y profesional de los estudiantes universitarios mediante la creación de una comunidad colaborativa que promueva el intercambio de conocimientos, experiencias y oportunidades.</p>
+            </div>
+            <div class="card">
+                <h2>Visión</h2>
+                <p>Ser una organización de alcance nacional e internacional que conecte a estudiantes de todas las universidades, facilitando su desarrollo integral y contribuyendo a la formación de profesionales comprometidos con la sociedad.</p>
+            </div>
+        </section>
+        
+        <h2 style="text-align: center; color: var(--azul); margin-bottom: 2rem;">Nuestros Valores</h2>
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">👥</div>
+                <h3>Colaboración</h3>
+                <p>Trabajamos juntos para alcanzar objetivos comunes y apoyarnos mutuamente.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📚</div>
+                <h3>Excelencia Académica</h3>
+                <p>Promovemos el aprendizaje continuo y la búsqueda del conocimiento.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌎</div>
+                <h3>Diversidad</h3>
+                <p>Valoramos y respetamos las diferencias culturales e ideológicas.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💡</div>
+                <h3>Innovación</h3>
+                <p>Fomentamos la creatividad y el pensamiento disruptivo.</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer id="contacto">
+        <h2>Contáctanos</h2>
+        <p>¿Tienes preguntas o sugerencias? Escríbenos a contacto@comunidad-universitaria.com</p>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+        </div>
+        <p>&copy; 2023 Comunidad Universitaria . Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

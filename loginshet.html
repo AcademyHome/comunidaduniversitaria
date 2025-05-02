@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Sistema</title>
+    <style>
+        /* Estilos anteriores se mantienen igual */
+    </style>
+</head>
+<body>
+    <!-- HTML anterior se mantiene igual -->
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjYrSpvII4LOb58pc63ulm_AAyVQEB5TXSYCqwNwYYYs71eGZWFk3UX-zOZhTD1b3r/exec';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM (se mantienen igual)
+            
+            // Función mejorada para manejar login
+            async function handleLogin(email, password) {
+                hideAllMessages();
+                showLoading();
+                
+                try {
+                    // 1. Primero verificar conectividad
+                    if (!navigator.onLine) {
+                        throw new Error('No hay conexión a Internet');
+                    }
+
+                    // 2. Probamos CORS primero con timeout
+                    const corsTest = await Promise.race([
+                        fetch(SCRIPT_URL + '?cors=1'),
+                        new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('Timeout al conectar')), 5000)
+                        )
+                    ]);
+                    
+                    if (!corsTest.ok) {
+                        throw new Error('Problema de configuración CORS');
+                    }
+
+                    // 3. Hacer la solicitud de login con timeout
+                    const response = await Promise.race([
+                        fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Cache-Control': 'no-cache'
+                            },
+                            body: JSON.stringify({ email, password }),
+                            redirect: 'follow'
+                        }),
+                        new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('El servidor no respondió')), 10000)
+                        )
+                    ]);
+
+                    // 4. Manejar respuesta
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        try {
+                            const errorData = JSON.parse(errorText);
+                            throw new Error(errorData.message || 'Error en credenciales');
+                        } catch {
+                            throw new Error(errorText || 'Error desconocido');
+                        }
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showSuccess('¡Bienvenido!');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    } else {
+                        throw new Error(result.message || 'Credenciales incorrectas');
+                    }
+                } catch (error) {
+                    console.error('Error en login:', error);
+                    
+                    // Mapeo de errores comunes
+                    const errorMap = {
+                        'Failed to fetch': 'No se pudo conectar al servidor',
+                        'NetworkError when attempting to fetch resource': 'Error de red',
+                        'Timeout al conectar': 'El servidor tardó demasiado en responder'
+                    };
+                    
+                    showError(errorMap[error.message] || error.message || 'Error desconocido');
+                    
+                    // Mostrar sugerencias para errores comunes
+                    if (error.message.includes('fetch') || error.message.includes('Network')) {
+                        showWarning('Revisa tu conexión a Internet o intenta más tarde');
+                    }
+                } finally {
+                    hideLoading();
+                }
+            }
+
+            // Manejador del formulario
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleLogin(emailInput.value.trim(), passwordInput.value.trim());
+            });
+
+            // Funciones auxiliares (showLoading, hideAllMessages, etc. se mantienen igual)
+        });
+    </script>
+</body>
+</html>
